@@ -1,4 +1,4 @@
-import { interpretationTable, getAgeGroup, interpretResult } from './cooperTestData.js';
+// 移除 import 語句，因為我們現在直接在 HTML 中引入了 cooperTestData.js
 
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('cooperForm');
