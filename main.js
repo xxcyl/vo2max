@@ -1,4 +1,3 @@
-// 由於我們將數據和一些函數移到了 cooperTestData.js，我們需要導入它們
 import { interpretationTable, getAgeGroup, interpretResult } from './cooperTestData.js';
 
 document.addEventListener('DOMContentLoaded', function() {
