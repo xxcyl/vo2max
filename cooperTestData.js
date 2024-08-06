@@ -1,4 +1,4 @@
-export const interpretationTable = {
+const interpretationTable = {
     '13-14': {
         male: ['>2700', '2400-2700', '2200-2399', '2100-2199', '<2100'],
         female: ['>2000', '1900-2000', '1600-1899', '1500-1599', '<1500']
@@ -29,7 +29,7 @@ export const interpretationTable = {
     }
 };
 
-export function getAgeGroup(age) {
+function getAgeGroup(age) {
     if (age < 15) return '13-14';
     if (age < 17) return '15-16';
     if (age < 21) return '17-20';
@@ -39,7 +39,7 @@ export function getAgeGroup(age) {
     return '50+';
 }
 
-export function interpretResult(distance, age, gender) {
+function interpretResult(distance, age, gender) {
     const ageGroup = getAgeGroup(age);
     const ranges = interpretationTable[ageGroup][gender];
     for (let i = 0; i < ranges.length; i++) {
