@@ -1,9 +1,36 @@
+// 由於我們將數據和一些函數移到了 cooperTestData.js，我們需要導入它們
 import { interpretationTable, getAgeGroup, interpretResult } from './cooperTestData.js';
 
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('cooperForm');
     const resultDiv = document.getElementById('result');
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
     
+    // 標籤切換邏輯
+    tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const tabName = button.getAttribute('data-tab');
+            
+            tabButtons.forEach(btn => {
+                btn.classList.remove('text-blue-600', 'border-blue-600');
+                btn.classList.add('text-gray-500', 'border-transparent');
+            });
+            
+            tabContents.forEach(content => {
+                content.classList.add('hidden');
+            });
+            
+            button.classList.remove('text-gray-500', 'border-transparent');
+            button.classList.add('text-blue-600', 'border-blue-600');
+            document.getElementById(`${tabName}Tab`).classList.remove('hidden');
+        });
+    });
+
+    // 設置默認激活的標籤
+    document.querySelector('[data-tab="calculator"]').click();
+    
+    // 表單提交處理
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         const distance = parseFloat(document.getElementById('distance').value);
@@ -26,6 +53,7 @@ document.addEventListener('DOMContentLoaded', function() {
     generateCooperTable();
 });
 
+// 生成Cooper測試評分標準表格的函數
 function generateCooperTable() {
     const table = document.getElementById('cooperTable');
     let tableHTML = `
