@@ -3,94 +3,93 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cooper Test 計算器</title>
+    <title>體能測試計算器</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body class="bg-gray-100 font-sans">
     <div class="max-w-6xl mx-auto bg-white rounded-xl shadow-md overflow-hidden my-8">
         <div class="bg-blue-600 text-white p-6">
-            <h1 id="cooper-test-計算器" class="text-3xl font-bold">🏃 Cooper Test 計算器</h1>
+            <h1 id="體能測試計算器" class="text-3xl font-bold">🏃 體能測試計算器</h1>
             <p>評估您的有氧體能並估算 VO2 Max</p>
-        </div>
-
-        <div class="border-b border-gray-200">
-            <button class="tab-button text-blue-600 border-blue-600 px-4 py-2" data-tab="calculator">計算器</button>
-            <button class="tab-button text-gray-500 border-transparent px-4 py-2" data-tab="instructions">測試說明</button>
         </div>
 
         <div class="p-6">
             <div id="calculatorTab" class="tab-content">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <h2 id="輸入您的資料" class="text-2xl font-semibold mb-4">輸入您的資料</h2>
-                        <form id="cooperForm">
+                <div class="mb-6">
+                    <label for="testType" class="block mb-2 font-semibold">選擇測試類型：</label>
+                    <select id="testType" name="testType" class="w-full px-3 py-2 border rounded-md">
+                        <option value="cooper">Cooper Test</option>
+                        <option value="1mile">1-Mile Track Walk Test</option>
+                    </select>
+                </div>
+                
+                <div id="cooperForm" class="test-form">
+                    <h2 class="text-2xl font-semibold mb-4">Cooper Test</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
                             <div class="mb-4">
-                                <label for="distance" class="block mb-2">12 分鐘內跑步距離（公尺）：</label>
-                                <input type="number" id="distance" name="distance" required class="w-full px-3 py-2 border rounded-md">
+                                <label for="cooperDistance" class="block mb-2">12 分鐘內跑步距離（公尺）：</label>
+                                <input type="number" id="cooperDistance" name="cooperDistance" required class="w-full px-3 py-2 border rounded-md">
                             </div>
                             <div class="mb-4">
-                                <label for="age" class="block mb-2">年齡：</label>
-                                <input type="number" id="age" name="age" required class="w-full px-3 py-2 border rounded-md">
+                                <label for="cooperAge" class="block mb-2">年齡：</label>
+                                <input type="number" id="cooperAge" name="cooperAge" required class="w-full px-3 py-2 border rounded-md">
                             </div>
                             <div class="mb-4">
                                 <label class="block mb-2">性別：</label>
-                                <select id="gender" name="gender" required class="w-full px-3 py-2 border rounded-md">
+                                <select id="cooperGender" name="cooperGender" required class="w-full px-3 py-2 border rounded-md">
                                     <option value="male">男性</option>
                                     <option value="female">女性</option>
                                 </select>
                             </div>
-                            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md">計算結果</button>
-                        </form>
-                    </div>
-                    <div>
-                        <h2 id="您的結果" class="text-2xl font-semibold mb-4">📊 您的結果</h2>
-                        <div id="result" class="p-4 bg-gray-100 rounded-lg">
-                            填寫表單並點擊「計算結果」來查看您的評估。
+                            <button type="button" id="cooperCalculate" class="bg-blue-500 text-white px-4 py-2 rounded-md">計算結果</button>
+                        </div>
+                        <div>
+                            <h2 id="cooperResult" class="text-2xl font-semibold mb-4">📊 您的結果</h2>
+                            <div id="cooperResultContent" class="p-4 bg-gray-100 rounded-lg">
+                                填寫表單並點擊「計算結果」來查看您的評估。
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="mt-8">
-                    <h2 id="cooper-test-評分標準" class="text-2xl font-semibold mb-4">Cooper Test 評分標準（單位：公尺）</h2>
-                    <div class="overflow-x-auto">
-                        <table id="cooperTable" class="min-w-full bg-white border border-gray-300"></table>
+                <div id="1mileForm" class="test-form hidden">
+                    <h2 class="text-2xl font-semibold mb-4">1-Mile Track Walk Test</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <div class="mb-4">
+                                <label for="mileTime" class="block mb-2">完成 1 英里所需時間（分鐘）：</label>
+                                <input type="number" id="mileTime" name="mileTime" step="0.01" required class="w-full px-3 py-2 border rounded-md">
+                            </div>
+                            <div class="mb-4">
+                                <label for="mileHeartRate" class="block mb-2">結束時心率（每分鐘次數）：</label>
+                                <input type="number" id="mileHeartRate" name="mileHeartRate" required class="w-full px-3 py-2 border rounded-md">
+                            </div>
+                            <div class="mb-4">
+                                <label for="mileAge" class="block mb-2">年齡：</label>
+                                <input type="number" id="mileAge" name="mileAge" required class="w-full px-3 py-2 border rounded-md">
+                            </div>
+                            <div class="mb-4">
+                                <label for="mileWeight" class="block mb-2">體重（磅）：</label>
+                                <input type="number" id="mileWeight" name="mileWeight" required class="w-full px-3 py-2 border rounded-md">
+                            </div>
+                            <div class="mb-4">
+                                <label class="block mb-2">性別：</label>
+                                <select id="mileGender" name="mileGender" required class="w-full px-3 py-2 border rounded-md">
+                                    <option value="1">男性</option>
+                                    <option value="0">女性</option>
+                                </select>
+                            </div>
+                            <button type="button" id="mileCalculate" class="bg-blue-500 text-white px-4 py-2 rounded-md">計算結果</button>
+                        </div>
+                        <div>
+                            <h2 id="mileResult" class="text-2xl font-semibold mb-4">📊 您的結果</h2>
+                            <div id="mileResultContent" class="p-4 bg-gray-100 rounded-lg">
+                                填寫表單並點擊「計算結果」來查看您的評估。
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-
-            <div id="instructionsTab" class="tab-content hidden">
-                <div class="space-y-6">
-                    <section class="section">
-                        <h2 id="什麼是cooper-test" class="text-2xl font-semibold mb-2">什麼是 Cooper Test？</h2>
-                        <p>Cooper Test 是一種評估有氧體能的方法，由 Kenneth H. Cooper 博士在 1968 年為美國軍方開發。這個測試簡單易行，只需要一個跑道和一個計時器，就可以評估一個人的心肺功能和體能水平。</p>
-                    </section>
-
-                    <section class="section">
-                        <h2 id="測試方法" class="text-2xl font-semibold mb-2">📋 測試方法</h2>
-                        <ol class="list-decimal list-inside">
-                            <li>在平坦的地面上標記一個跑道（通常是 400 公尺的標準田徑跑道）。</li>
-                            <li>進行充分的熱身運動。</li>
-                            <li>開始計時，在 12 分鐘內盡可能跑得越遠越好。</li>
-                            <li>12 分鐘結束時，立即停止並記錄跑步的總距離。</li>
-                            <li>使用我們的計算器輸入您的距離、年齡和性別，獲取您的體能評估和估算的 VO2 Max。</li>
-                        </ol>
-                    </section>
-
-                    <section class="section">
-                        <h2 id="注意事項" class="text-2xl font-semibold mb-2">⚠️ 注意事項</h2>
-                        <ul class="list-disc list-inside">
-                            <li>在進行測試前，確保您身體狀況良好。如果您有任何健康問題，請先諮詢醫生。</li>
-                            <li>測試過程中保持均勻的配速，不要過快起跑。</li>
-                            <li>如果感到不適，應立即停止測試。</li>
-                            <li>測試後進行適當的放鬆運動。</li>
-                        </ul>
-                    </section>
-
-                    <section class="section">
-                        <h2 id="關於vo2-max" class="text-2xl font-semibold mb-2">關於 VO2 Max</h2>
-                        <p>VO2 Max 是指人體在劇烈運動中所能攝入、運輸和利用氧氣的最大量，通常以毫升/公斤/分鐘（ml/kg/min）為單位。它是衡量一個人有氧能力的重要指標。Cooper Test 可以用來估算 VO2 Max，但要獲得更準確的數值，需要在實驗室環境下進行專業測試。</p>
-                    </section>
                 </div>
             </div>
         </div>
