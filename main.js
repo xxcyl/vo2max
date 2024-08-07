@@ -5,6 +5,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const rockportCalculateButton = document.getElementById('rockportCalculate');
     const cooperResult = document.getElementById('cooperResult');
     const rockportResult = document.getElementById('rockportResult');
+    const toggleCooperTable = document.getElementById('toggleCooperTable');
+    const cooperTableContainer = document.getElementById('cooperTableContainer');
 
     // 初始化頁面
     generateCooperTable();
@@ -66,6 +68,13 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
         `;
     });
+
+    // Cooper Test 評分標準表展開/縮合
+    toggleCooperTable.addEventListener('click', function() {
+        cooperTableContainer.classList.toggle('hidden');
+        const svg = this.querySelector('svg');
+        svg.classList.toggle('rotate-180');
+    });
 });
 
 // 生成 Cooper Test 評分標準表格
@@ -73,17 +82,17 @@ function generateCooperTable() {
     const cooperTable = document.getElementById('cooperTable');
     let tableHTML = `
         <thead>
-            <tr>
-                <th>年齡</th>
-                <th>性別</th>
-                <th>優秀</th>
-                <th>良好</th>
-                <th>一般</th>
-                <th>不佳</th>
-                <th>很差</th>
+            <tr class="bg-gray-50">
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">年齡</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">性別</th>
+                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">優秀</th>
+                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">良好</th>
+                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">一般</th>
+                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">不佳</th>
+                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">很差</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="bg-white divide-y divide-gray-200">
     `;
 
     for (const [ageGroup, genderData] of Object.entries(interpretationTable)) {
@@ -91,13 +100,13 @@ function generateCooperTable() {
             const rowClass = gender === 'male' ? 'bg-gray-50' : '';
             tableHTML += `
                 <tr class="${rowClass}">
-                    <td>${ageGroup}</td>
-                    <td>${gender === 'male' ? '男' : '女'}</td>
-                    <td>${data[0]}</td>
-                    <td>${data[1]}</td>
-                    <td>${data[2]}</td>
-                    <td>${data[3]}</td>
-                    <td>${data[4]}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${ageGroup}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${gender === 'male' ? '男' : '女'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${data[0]}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${data[1]}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${data[2]}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${data[3]}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${data[4]}</td>
                 </tr>
             `;
         }
@@ -107,6 +116,31 @@ function generateCooperTable() {
     cooperTable.innerHTML = tableHTML;
 }
 
-// 以下函數假設在 cooperTestData.js 中定義
-// function getAgeGroup(age) { ... }
-// function interpretResult(distance, age, gender) { ... }
+// 獲取年齡組別
+function getAgeGroup(age) {
+    if (age < 15) return '13-14';
+    if (age < 17) return '15-16';
+    if (age < 21) return '17-20';
+    if (age < 30) return '20-29';
+    if (age < 40) return '30-39';
+    if (age < 50) return '40-49';
+    return '50+';
+}
+
+// 解釋 Cooper Test 結果
+function interpretResult(distance, age, gender) {
+    const ageGroup = getAgeGroup(age);
+    const ranges = interpretationTable[ageGroup][gender];
+    for (let i = 0; i < ranges.length; i++) {
+        const range = ranges[i].replace('>', '').replace('<', '').split('-');
+        if (range.length === 1) {
+            if ((i === 0 && distance >= parseFloat(range[0])) || 
+                (i === ranges.length - 1 && distance <= parseFloat(range[0]))) {
+                return ['優秀', '良好', '一般', '不佳', '很差'][i];
+            }
+        } else if (distance >= parseFloat(range[0]) && distance <= parseFloat(range[1])) {
+            return ['優秀', '良好', '一般', '不佳', '很差'][i];
+        }
+    }
+    return '無法判斷';
+}
