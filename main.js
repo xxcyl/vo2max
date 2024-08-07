@@ -2,9 +2,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const tabButtons = document.querySelectorAll('.tab-button');
     const tabContents = document.querySelectorAll('.tab-content');
     const cooperCalculateButton = document.getElementById('cooperCalculate');
-    const mileCalculateButton = document.getElementById('mileCalculate');
+    const rockportCalculateButton = document.getElementById('rockportCalculate');
     const cooperResult = document.getElementById('cooperResult');
-    const mileResult = document.getElementById('mileResult');
+    const rockportResult = document.getElementById('rockportResult');
 
     // 初始化頁面
     generateCooperTable();
@@ -28,6 +28,47 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById(`${tabName}Tab`).classList.remove('hidden');
         });
     });
+
+    // Cooper Test 計算
+    cooperCalculateButton.addEventListener('click', function() {
+        const distance = parseFloat(document.getElementById('cooperDistance').value);
+        const age = parseInt(document.getElementById('cooperAge').value);
+        const gender = document.getElementById('cooperGender').value;
+        const interpretation = interpretResult(distance, age, gender);
+        const vo2max = (distance - 504.9) / 44.73;
+        
+        cooperResult.innerHTML = `
+            <div class="space-y-2">
+                <p class="font-semibold">您的 12 分鐘跑步距離：<span class="result-highlight">${distance} 公尺</span></p>
+                <p class="font-semibold">體能水平：<span class="result-highlight">${interpretation}</span></p>
+                <p class="font-semibold">估算的 VO2 Max：<span class="result-highlight">${vo2max.toFixed(2)} ml/kg/min</span></p>
+            </div>
+        `;
+    });
+
+    // Rockport Walk Test 計算
+    rockportCalculateButton.addEventListener('click', function() {
+        const time = parseFloat(document.getElementById('rockportTime').value);
+        const heartRate = parseInt(document.getElementById('rockportHeartRate').value);
+        const age = parseInt(document.getElementById('rockportAge').value);
+        const weight = parseFloat(document.getElementById('rockportWeight').value);
+        const gender = parseInt(document.getElementById('rockportGender').value);
+
+        // 調整後的 Rockport Walk Test VO2 Max 計算公式
+        // 原公式：VO2 max = 132.853 - (0.0769 * Weight) - (0.3877 * Age) + (6.315 * Gender) - (3.2649 * Time) - (0.1565 * HeartRate)
+        // 我們需要將體重從公斤轉換為磅，將距離從 1.61 公里調整為 1 英里
+        const weightInPounds = weight * 2.20462;
+        const timeForMile = time / 1.61;
+
+        const vo2max = 132.853 - (0.0769 * weightInPounds) - (0.3877 * age) + (6.315 * gender) - (3.2649 * timeForMile) - (0.1565 * heartRate);
+
+        rockportResult.innerHTML = `
+            <div class="space-y-2">
+                <p class="font-semibold">估算的 VO2 Max：<span class="result-highlight">${vo2max.toFixed(2)} ml/kg/min</span></p>
+            </div>
+        `;
+    });
+});
 
     // Cooper Test 計算
     cooperCalculateButton.addEventListener('click', function() {
