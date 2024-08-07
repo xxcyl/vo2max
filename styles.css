@@ -20,23 +20,6 @@ body {
     background-color: #007aff;
 }
 
-.tab-button {
-    background-color: transparent;
-    border: none;
-    padding: 0.75rem 1rem;
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-.tab-button:hover {
-    background-color: rgba(0,122,255,0.1);
-}
-
-.tab-button.active {
-    color: #007aff;
-    border-bottom: 2px solid #007aff;
-}
-
 input[type="number"], select {
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -55,7 +38,7 @@ input[type="number"]:focus, select:focus {
     box-shadow: 0 0 0 3px rgba(0,113,227,0.3);
 }
 
-button[type="submit"] {
+button {
     background-color: #0071e3;
     color: white;
     border: none;
@@ -65,37 +48,15 @@ button[type="submit"] {
     transition: all 0.3s ease;
 }
 
-button[type="submit"]:hover {
+button:hover {
     background-color: #0077ed;
-}
-
-#result {
-    background-color: #f5f5f7;
-    border: 1px solid #d2d2d7;
-    border-radius: 6px;
-}
-
-table {
-    border-collapse: separate;
-    border-spacing: 0;
-    width: 100%;
-    border: 1px solid #d2d2d7;
-    border-radius: 6px;
-    overflow: hidden;
-}
-
-th, td {
-    border: 1px solid #d2d2d7;
-    padding: 0.75rem;
-    text-align: left;
-}
-
-th {
-    background-color: #f5f5f7;
-    font-weight: 600;
 }
 
 .result-highlight {
     color: #007aff;
     font-weight: 600;
+}
+
+.hidden {
+    display: none;
 }
