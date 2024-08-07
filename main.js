@@ -57,36 +57,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Cooper Test 相關函數
-function getAgeGroup(age) {
-    if (age < 15) return '13-14';
-    if (age < 17) return '15-16';
-    if (age < 21) return '17-20';
-    if (age < 30) return '20-29';
-    if (age < 40) return '30-39';
-    if (age < 50) return '40-49';
-    return '50+';
-}
-
-function interpretResult(distance, age, gender) {
-    const ageGroup = getAgeGroup(age);
-    const ranges = interpretationTable[ageGroup][gender];
-    for (let i = 0; i < ranges.length; i++) {
-        const range = ranges[i].replace('>', '').replace('<', '').split('-');
-        if (range.length === 1) {
-            if ((i === 0 && distance >= parseFloat(range[0])) || 
-                (i === ranges.length - 1 && distance <= parseFloat(range[0]))) {
-                return ['優秀', '良好', '一般', '不佳', '很差'][i];
-            }
-        } else if (distance >= parseFloat(range[0]) && distance <= parseFloat(range[1])) {
-            return ['優秀', '良好', '一般', '不佳', '很差'][i];
-        }
-    }
-    return '無法判斷';
-}
-
 // 生成 Cooper Test 評分標準表格
 function generateCooperTable() {
+    const cooperTable = document.getElementById('cooperTable');
     let tableHTML = `
         <thead>
             <tr>
