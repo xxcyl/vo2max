@@ -7,9 +7,15 @@ document.addEventListener('DOMContentLoaded', function() {
     const rockportResult = document.getElementById('rockportResult');
     const toggleCooperTable = document.getElementById('toggleCooperTable');
     const cooperTableContainer = document.getElementById('cooperTableContainer');
+    const toggleVO2MaxTable = document.getElementById('toggleVO2MaxTable');
+    const vo2MaxTableContainer = document.getElementById('vo2MaxTableContainer');
+    const toggleVO2MaxTableRockport = document.getElementById('toggleVO2MaxTableRockport');
+    const vo2MaxTableContainerRockport = document.getElementById('vo2MaxTableContainerRockport');
 
     // 初始化頁面
     generateCooperTable();
+    generateVO2MaxTable('vo2MaxTable');
+    generateVO2MaxTable('vo2MaxTableRockport');
 
     // 標籤切換邏輯
     tabButtons.forEach(button => {
@@ -75,6 +81,20 @@ document.addEventListener('DOMContentLoaded', function() {
         const svg = this.querySelector('svg');
         svg.classList.toggle('rotate-180');
     });
+
+    // VO2 Max 表格展開/縮合 (Cooper)
+    toggleVO2MaxTable.addEventListener('click', function() {
+        vo2MaxTableContainer.classList.toggle('hidden');
+        const svg = this.querySelector('svg');
+        svg.classList.toggle('rotate-180');
+    });
+
+    // VO2 Max 表格展開/縮合 (Rockport)
+    toggleVO2MaxTableRockport.addEventListener('click', function() {
+        vo2MaxTableContainerRockport.classList.toggle('hidden');
+        const svg = this.querySelector('svg');
+        svg.classList.toggle('rotate-180');
+    });
 });
 
 // 生成 Cooper Test 評分標準表格
@@ -114,6 +134,49 @@ function generateCooperTable() {
 
     tableHTML += '</tbody>';
     cooperTable.innerHTML = tableHTML;
+}
+
+// 生成 VO2 Max 表格
+function generateVO2MaxTable(tableId) {
+    const table = document.getElementById(tableId);
+    let tableHTML = `
+        <thead>
+            <tr class="bg-gray-50">
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">性別</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">年齡</th>
+                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">很差</th>
+                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">差</th>
+                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">普通</th>
+                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">平均</th>
+                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">好</th>
+                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">很好</th>
+                <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">優秀</th>
+            </tr>
+        </thead>
+        <tbody class="bg-white divide-y divide-gray-200">
+    `;
+
+    ['men', 'women'].forEach((gender, genderIndex) => {
+        vo2maxData[gender].forEach((row, index) => {
+            const rowClass = index % 2 === 0 ? 'bg-gray-50' : '';
+            tableHTML += `
+                <tr class="${rowClass}">
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${gender === 'men' ? '男性' : '女性'}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${row.age}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${row.veryPoor}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${row.poor}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${row.fair}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${row.average}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${row.good}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${row.veryGood}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${row.excellent}</td>
+                </tr>
+            `;
+        });
+    });
+
+    tableHTML += '</tbody>';
+    table.innerHTML = tableHTML;
 }
 
 // 獲取年齡組別
