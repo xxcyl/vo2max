@@ -104,7 +104,6 @@ function generateCooperTable() {
         <thead>
             <tr class="bg-gray-50">
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">年齡</th>
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">性別</th>
                 <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">優秀</th>
                 <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">良好</th>
                 <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">一般</th>
@@ -115,27 +114,51 @@ function generateCooperTable() {
         <tbody class="bg-white divide-y divide-gray-200">
     `;
 
-    for (const [ageGroup, genderData] of Object.entries(interpretationTable)) {
-        for (const [gender, data] of Object.entries(genderData)) {
-            const rowClass = gender === 'male' ? 'bg-gray-50' : '';
-            tableHTML += `
-                <tr class="${rowClass}">
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${ageGroup}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${gender === 'male' ? '男' : '女'}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${data[0]}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${data[1]}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${data[2]}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${data[3]}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${data[4]}</td>
-                </tr>
-            `;
-        }
+    // 添加男性數據
+    tableHTML += `
+        <tr class="bg-blue-50">
+            <td colspan="6" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-800">男性</td>
+        </tr>
+    `;
+    for (const [ageGroup, data] of Object.entries(interpretationTable)) {
+        const maleData = data.male;
+        const rowClass = ageGroup === '50+' ? 'bg-gray-50' : '';
+        tableHTML += `
+            <tr class="${rowClass}">
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${ageGroup}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${maleData[0]}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${maleData[1]}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${maleData[2]}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${maleData[3]}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${maleData[4]}</td>
+            </tr>
+        `;
+    }
+
+    // 添加女性數據
+    tableHTML += `
+        <tr class="bg-pink-50">
+            <td colspan="6" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-pink-800">女性</td>
+        </tr>
+    `;
+    for (const [ageGroup, data] of Object.entries(interpretationTable)) {
+        const femaleData = data.female;
+        const rowClass = ageGroup === '50+' ? 'bg-gray-50' : '';
+        tableHTML += `
+            <tr class="${rowClass}">
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${ageGroup}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${femaleData[0]}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${femaleData[1]}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${femaleData[2]}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${femaleData[3]}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${femaleData[4]}</td>
+            </tr>
+        `;
     }
 
     tableHTML += '</tbody>';
     cooperTable.innerHTML = tableHTML;
 }
-
 // 生成 VO2 Max 表格
 function generateVO2MaxTable(tableId) {
     const table = document.getElementById(tableId);
