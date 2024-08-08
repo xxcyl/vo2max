@@ -142,7 +142,6 @@ function generateVO2MaxTable(tableId) {
     let tableHTML = `
         <thead>
             <tr class="bg-gray-50">
-                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">性別</th>
                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">年齡</th>
                 <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">很差</th>
                 <th class="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">差</th>
@@ -156,23 +155,48 @@ function generateVO2MaxTable(tableId) {
         <tbody class="bg-white divide-y divide-gray-200">
     `;
 
-    ['men', 'women'].forEach((gender, genderIndex) => {
-        vo2maxData[gender].forEach((row, index) => {
-            const rowClass = index % 2 === 0 ? 'bg-gray-50' : '';
-            tableHTML += `
-                <tr class="${rowClass}">
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${gender === 'men' ? '男性' : '女性'}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${row.age}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${row.veryPoor}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${row.poor}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${row.fair}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${row.average}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${row.good}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${row.veryGood}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${row.excellent}</td>
-                </tr>
-            `;
-        });
+    // 添加男性數據
+    tableHTML += `
+        <tr class="bg-blue-50">
+            <td colspan="8" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-800">男性</td>
+        </tr>
+    `;
+    vo2maxData.men.forEach((row, index) => {
+        const rowClass = index % 2 === 0 ? 'bg-gray-50' : '';
+        tableHTML += `
+            <tr class="${rowClass}">
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${row.age}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${row.veryPoor}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${row.poor}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${row.fair}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${row.average}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${row.good}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${row.veryGood}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${row.excellent}</td>
+            </tr>
+        `;
+    });
+
+    // 添加女性數據
+    tableHTML += `
+        <tr class="bg-pink-50">
+            <td colspan="8" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-pink-800">女性</td>
+        </tr>
+    `;
+    vo2maxData.women.forEach((row, index) => {
+        const rowClass = index % 2 === 0 ? 'bg-gray-50' : '';
+        tableHTML += `
+            <tr class="${rowClass}">
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${row.age}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${row.veryPoor}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${row.poor}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${row.fair}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${row.average}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${row.good}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${row.veryGood}</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 text-center">${row.excellent}</td>
+            </tr>
+        `;
     });
 
     tableHTML += '</tbody>';
