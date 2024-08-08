@@ -206,7 +206,7 @@ function generateVO2MaxTable(tableId) {
     // 添加男性數據
     tableHTML += `
         <tr class="bg-gray-200">
-            <td colspan="6" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">男性</td>
+            <td colspan="8" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">男性</td>
         </tr>
     `;
     vo2maxData.men.forEach((row, index) => {
@@ -228,7 +228,7 @@ function generateVO2MaxTable(tableId) {
     // 添加女性數據
     tableHTML += `
         <tr class="bg-gray-200">
-            <td colspan="6" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">女性</td>
+            <td colspan="8" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">女性</td>
         </tr>
     `;
     vo2maxData.women.forEach((row, index) => {
