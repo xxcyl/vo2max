@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let minutes = Math.floor(value / 100);
         let seconds = value % 100;
         if (minutes > 59 || seconds > 59) {
-            alert('請輸入有效的時間格式（例如：1030 表示 10 分 30 秒）');
+            alert('請輸入有效的時間格式（例如：10分30秒，請輸入 1030）');
             e.target.value = '';
         }
     });
