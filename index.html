@@ -4,155 +4,119 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VO2 Max 計算器</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="styles.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-gray-100 text-gray-900">
+<body>
     <div class="max-w-6xl mx-auto bg-white rounded-xl shadow-md overflow-hidden my-8">
-        <div class="bg-gray-800 text-white p-6">
+        <header class="bg-dark-gray text-white p-6">
             <h1 class="text-3xl font-bold">VO2 Max 計算器</h1>
-            <p class="mt-2">估算 VO2 Max 評估您的有氧體能</p>
-        </div>
+            <p>估算 VO2 Max 評估您的有氧體能</p>
+        </header>
 
-        <div class="border-b border-gray-200">
-            <nav class="-mb-px flex" aria-label="Tabs">
-                <button class="tab-button w-1/2 py-4 px-1 text-center border-b-2 font-medium text-sm" data-tab="cooper">
-                    Cooper Test
-                </button>
-                <button class="tab-button w-1/2 py-4 px-1 text-center border-b-2 font-medium text-sm" data-tab="rockport">
-                    Rockport Walk Test
-                </button>
-            </nav>
-        </div>
+        <nav class="border-b border-light-gray">
+            <button class="tab-button active" data-tab="cooper">Cooper Test</button>
+            <button class="tab-button" data-tab="rockport">Rockport Walk Test</button>
+        </nav>
 
-        <div class="p-6">
-            <div id="cooperTab" class="tab-content">
+        <main class="p-6">
+            <section id="cooperTab" class="tab-content">
                 <h2 class="text-2xl font-semibold mb-4">Cooper Test</h2>
-                <div class="bg-gray-100 border-l-4 border-gray-500 text-gray-700 p-4 mb-6">
-                    <p><strong>測試說明：</strong></p>
+                <div class="bg-light-gray border-l-4 border-medium-gray text-gray-700 p-4 mb-6">
+                    <h3 class="font-bold">測試說明：</h3>
                     <p>參與者應「在 12 分鐘內盡可能跑得越遠越好，建議以跑步為主，但如果需要防止過度疲勞，可以適時走路」。記錄 12 分鐘內完成的距離（以公尺為單位）。測試完成後，參與者應繼續步行以進行緩和。</p>
                     <p>如果您覺得無法以最佳狀態進行測試，還有其他選擇。您可以考慮使用 Rockport 步行測試來估算您的 VO2 max。</p>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <div class="grid md:grid-cols-2 gap-6">
                     <div>
                         <div class="mb-4">
-                            <label for="cooperDistance" class="block text-sm font-medium text-gray-700">12 分鐘內跑步距離（公尺）：</label>
-                            <input type="number" id="cooperDistance" name="cooperDistance" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring focus:ring-gray-200 focus:ring-opacity-50">
+                            <label for="cooperDistance">12 分鐘內跑步距離（公尺）：</label>
+                            <input type="number" id="cooperDistance" min="0" step="1" required>
                         </div>
                         <div class="mb-4">
-                            <label for="cooperAge" class="block text-sm font-medium text-gray-700">年齡：</label>
-                            <input type="number" id="cooperAge" name="cooperAge" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring focus:ring-gray-200 focus:ring-opacity-50">
+                            <label for="cooperAge">年齡：</label>
+                            <input type="number" id="cooperAge" min="13" max="120" required>
                         </div>
                         <div class="mb-4">
-                            <label for="cooperGender" class="block text-sm font-medium text-gray-700">性別：</label>
-                            <select id="cooperGender" name="cooperGender" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring focus:ring-gray-200 focus:ring-opacity-50">
+                            <label for="cooperGender">性別：</label>
+                            <select id="cooperGender" required>
                                 <option value="male">男性</option>
                                 <option value="female">女性</option>
                             </select>
                         </div>
-                        <button id="cooperCalculate" class="w-full bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">
-                            計算結果
-                        </button>
+                        <button id="cooperCalculate">計算結果</button>
                     </div>
                     <div>
                         <h3 class="text-xl font-semibold mb-4">📊 您的結果</h3>
-                        <div id="cooperResult" class="p-4 bg-gray-100 rounded-lg">
+                        <div id="cooperResult" class="p-4 bg-light-gray rounded-lg">
                             填寫表單並點擊「計算結果」來查看您的評估。
                         </div>
                     </div>
                 </div>
-                <div class="mt-8">
-                    <button id="toggleCooperTable" class="mb-4 bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded flex items-center">
-                        <span>Cooper Test 評分標準（單位：公尺）</span>
-                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </button>
-                    <div id="cooperTableContainer" class="hidden">
-                        <div class="overflow-x-auto">
-                            <table id="cooperTable" class="min-w-full divide-y divide-gray-200"></table>
-                        </div>
-                    </div>
-                </div>
-                <div class="mt-8">
-                    <button id="toggleVO2MaxTable" class="mb-4 bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded flex items-center">
-                        <span>VO2 Max 參考表格</span>
-                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </button>
-                    <div id="vo2MaxTableContainer" class="hidden">
-                        <div class="overflow-x-auto">
-                            <table id="vo2MaxTable" class="min-w-full divide-y divide-gray-200"></table>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
-            <div id="rockportTab" class="tab-content hidden">
+                <div class="mt-8">
+                    <h3 class="text-xl font-semibold mb-4">Cooper Test 評分標準（單位：公尺）</h3>
+                    <div id="cooperTableContainer" class="overflow-x-auto">
+                        <table id="cooperTable"></table>
+                    </div>
+                </div>
+            </section>
+
+            <section id="rockportTab" class="tab-content hidden">
                 <h2 class="text-2xl font-semibold mb-4">Rockport Walk Test</h2>
-                <div class="bg-gray-100 border-l-4 border-gray-500 text-gray-700 p-4 mb-6">
-                    <strong>測試說明：</strong>
+                <div class="bg-light-gray border-l-4 border-medium-gray text-gray-700 p-4 mb-6">
+                    <h3 class="font-bold">測試說明：</h3>
                     <p>Rockport 步行測試是最適合初學者的心肺健康測試，特別是非運動員的上班族成年人。參與者應「盡可能快速地行走 1.6 公里（1 英里）」。記錄完成測試的時間（以分鐘為單位）及完成測試時的心率。測試完成後，參與者應繼續步行以進行緩和。</p>
                     <p>請注意：如果您覺得快速行走 1.6 公里（即使是以健走的速度）對您來說非常容易，那麼您可能會從 Cooper Test 中得到更準確的分數。</p>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+                <div class="grid md:grid-cols-2 gap-6">
                     <div>
                         <div class="mb-4">
-                            <label for="rockportTime" class="block text-sm font-medium text-gray-700">完成 1.6 公里所需時間：</label>
-                            <input type="number" id="rockportTime" name="rockportTime" placeholder="例如：1030" 
-                                   class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring focus:ring-gray-200 focus:ring-opacity-50" 
-                                   min="0" max="9999" step="1">
-                            <p class="mt-1 text-xs text-gray-500">請使用 4 位數字：如果是 10 分 30 秒，請輸入 1030</p>
+                            <label for="rockportTime">完成 1.6 公里所需時間：</label>
+                            <input type="number" id="rockportTime" min="0" step="0.01" required>
+                            <p class="text-sm text-gray-600">請使用 4 位數字：如果是 10 分 30 秒，請輸入 10.50</p>
                         </div>
                         <div class="mb-4">
-                            <label for="rockportHeartRate" class="block text-sm font-medium text-gray-700">結束時心率（每分鐘次數）：</label>
-                            <input type="number" id="rockportHeartRate" name="rockportHeartRate" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring focus:ring-gray-200 focus:ring-opacity-50">
+                            <label for="rockportHeartRate">結束時心率（每分鐘次數）：</label>
+                            <input type="number" id="rockportHeartRate" min="0" max="220" required>
                         </div>
                         <div class="mb-4">
-                            <label for="rockportAge" class="block text-sm font-medium text-gray-700">年齡：</label>
-                            <input type="number" id="rockportAge" name="rockportAge" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring focus:ring-gray-200 focus:ring-opacity-50">
+                            <label for="rockportAge">年齡：</label>
+                            <input type="number" id="rockportAge" min="13" max="120" required>
                         </div>
                         <div class="mb-4">
-                            <label for="rockportWeight" class="block text-sm font-medium text-gray-700">體重（公斤）：</label>
-                            <input type="number" step="0.1" id="rockportWeight" name="rockportWeight" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring focus:ring-gray-200 focus:ring-opacity-50">
+                            <label for="rockportWeight">體重（公斤）：</label>
+                            <input type="number" id="rockportWeight" min="0" step="0.1" required>
                         </div>
                         <div class="mb-4">
-                            <label for="rockportGender" class="block text-sm font-medium text-gray-700">性別：</label>
-                            <select id="rockportGender" name="rockportGender" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-gray-500 focus:ring focus:ring-gray-200 focus:ring-opacity-50">
+                            <label for="rockportGender">性別：</label>
+                            <select id="rockportGender" required>
                                 <option value="1">男性</option>
                                 <option value="0">女性</option>
                             </select>
                         </div>
-                        <button id="rockportCalculate" class="w-full bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded">
-                            計算結果
-                        </button>
+                        <button id="rockportCalculate">計算結果</button>
                     </div>
                     <div>
                         <h3 class="text-xl font-semibold mb-4">📊 您的結果</h3>
-                        <div id="rockportResult" class="p-4 bg-gray-100 rounded-lg">
+                        <div id="rockportResult" class="p-4 bg-light-gray rounded-lg">
                             填寫表單並點擊「計算結果」來查看您的評估。
                         </div>
                     </div>
                 </div>
-                <div class="mt-8">
-                    <button id="toggleVO2MaxTableRockport" class="mb-4 bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded flex items-center">
-                        <span>VO2 Max 參考表格</span>
-                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </button>
-                    <div id="vo2MaxTableContainerRockport" class="hidden">
-                        <div class="overflow-x-auto">
-                            <table id="vo2MaxTableRockport" class="min-w-full divide-y divide-gray-200"></table>
-                        </div>
-                    </div>
+            </section>
+
+            <section class="mt-8">
+                <h3 class="text-xl font-semibold mb-4">VO2 Max 參考表格</h3>
+                <div id="vo2MaxTableContainer" class="overflow-x-auto">
+                    <table id="vo2MaxTable"></table>
                 </div>
-            </div>
-        </div>
+            </section>
+        </main>
     </div>
+
     <script src="cooperTestData.js"></script>
-    <script src="vo2maxData.js"></script>
     <script src="main.js"></script>
 </body>
 </html>
