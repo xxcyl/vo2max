@@ -55,25 +55,34 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Rockport Walk Test 計算
-    rockportCalculateButton.addEventListener('click', function() {
-        const time = parseFloat(document.getElementById('rockportTime').value);
-        const heartRate = parseInt(document.getElementById('rockportHeartRate').value);
-        const age = parseInt(document.getElementById('rockportAge').value);
-        const weight = parseFloat(document.getElementById('rockportWeight').value);
-        const gender = parseInt(document.getElementById('rockportGender').value);
+rockportCalculateButton.addEventListener('click', function() {
+    const timeInput = document.getElementById('rockportTime').value;
+    const heartRate = parseInt(document.getElementById('rockportHeartRate').value);
+    const age = parseInt(document.getElementById('rockportAge').value);
+    const weight = parseFloat(document.getElementById('rockportWeight').value);
+    const gender = parseInt(document.getElementById('rockportGender').value);
 
-        // 調整後的 Rockport Walk Test VO2 Max 計算公式
-        const weightInPounds = weight * 2.20462;
-        const timeForMile = time / 1.61;
+    // 將輸入的時間（例如1030）轉換為分鐘和百分之一分鐘
+    const minutes = Math.floor(timeInput / 100);
+    const seconds = timeInput % 100;
+    const time = minutes + (seconds / 60);
 
-        const vo2max = 132.853 - (0.0769 * weightInPounds) - (0.3877 * age) + (6.315 * gender) - (3.2649 * timeForMile) - (0.1565 * heartRate);
+    // 輸入驗證
+    if (isNaN(time) || seconds >= 60) {
+        alert("請輸入有效的時間格式（例如：1030 表示 10 分 30 秒）");
+        return;
+    }
 
-        rockportResult.innerHTML = `
-            <div class="space-y-2">
-                <p class="font-semibold">估算的 VO2 Max：<span class="result-highlight">${vo2max.toFixed(2)} ml/kg/min</span></p>
-            </div>
-        `;
-    });
+    // 調整後的 Rockport Walk Test VO2 Max 計算公式
+    const weightInPounds = weight * 2.20462;
+    const vo2max = 132.853 - (0.0769 * weightInPounds) - (0.3877 * age) + (6.315 * gender) - (3.2649 * time) - (0.1565 * heartRate);
+
+    rockportResult.innerHTML = `
+        <div class="space-y-2">
+            <p class="font-semibold">估算的 VO2 Max：<span class="result-highlight">${vo2max.toFixed(2)} ml/kg/min</span></p>
+        </div>
+    `;
+});
 
     // Cooper Test 評分標準表展開/縮合
     toggleCooperTable.addEventListener('click', function() {
