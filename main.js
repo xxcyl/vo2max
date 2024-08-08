@@ -116,8 +116,8 @@ function generateCooperTable() {
 
     // 添加男性數據
     tableHTML += `
-        <tr class="bg-blue-50">
-            <td colspan="6" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-800">男性</td>
+        <tr class="bg-gray-200">
+            <td colspan="6" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">男性</td>
         </tr>
     `;
     for (const [ageGroup, data] of Object.entries(interpretationTable)) {
@@ -137,8 +137,8 @@ function generateCooperTable() {
 
     // 添加女性數據
     tableHTML += `
-        <tr class="bg-pink-50">
-            <td colspan="6" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-pink-800">女性</td>
+        <tr class="bg-gray-200">
+            <td colspan="6" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">女性</td>
         </tr>
     `;
     for (const [ageGroup, data] of Object.entries(interpretationTable)) {
@@ -180,8 +180,8 @@ function generateVO2MaxTable(tableId) {
 
     // 添加男性數據
     tableHTML += `
-        <tr class="bg-blue-50">
-            <td colspan="8" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-blue-800">男性</td>
+        <tr class="bg-gray-200">
+            <td colspan="6" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">男性</td>
         </tr>
     `;
     vo2maxData.men.forEach((row, index) => {
@@ -202,8 +202,8 @@ function generateVO2MaxTable(tableId) {
 
     // 添加女性數據
     tableHTML += `
-        <tr class="bg-pink-50">
-            <td colspan="8" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-pink-800">女性</td>
+        <tr class="bg-gray-200">
+            <td colspan="6" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">女性</td>
         </tr>
     `;
     vo2maxData.women.forEach((row, index) => {
